@@ -1,0 +1,41 @@
+postgresql:
+  enabled: false
+
+extraInitContainers: |
+  - name: theme-provider
+    image: oncokb/keycloak:1.0.0-alpha.0
+    imagePullPolicy: IfNotPresent
+    command: ["/bin/sh", "-c"]
+    args:
+      - cp -R /themes/keycloak-oncokb/* /keycloak-oncokb
+    volumeMounts:
+      - name: keycloak-oncokb
+        mountPath: /keycloak-oncokb
+
+extraVolumeMounts: |
+  - name: keycloak-oncokb
+    mountPath: /opt/jboss/keycloak/themes/keycloak-oncokb
+
+extraVolumes: |
+  - name: keycloak-oncokb
+    emptyDir: {}
+
+extraEnv: |
+  - name: DB_VENDOR
+    value: mysql 
+  - name: DB_ADDR
+    value: keycloak-mysql
+  - name: DB_PORT
+    value: "3306"
+  - name: DB_DATABASE
+    value: keycloak
+  - name: DB_USER
+    value: root
+  - name: DB_PASSWORD
+    value: root
+  - name: KEYCLOAK_USER
+    value: admin
+  - name: KEYCLOAK_PASSWORD
+    value: admin
+  - name: KEYCLOAK_LOGLEVEL
+    value: INFO
