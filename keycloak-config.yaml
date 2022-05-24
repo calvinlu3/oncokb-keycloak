@@ -24,18 +24,26 @@ extraEnv: |
   - name: DB_VENDOR
     value: mysql 
   - name: DB_ADDR
-    value: keycloak-mysql
+    value: '$(DB_ADDRESS)'
   - name: DB_PORT
     value: "3306"
   - name: DB_DATABASE
-    value: keycloak
+    value: '$(DB_DATABASE)'
   - name: DB_USER
-    value: root
+    value: '$(DB_USERNAME)'
   - name: DB_PASSWORD
-    value: root
+    value: '$(DB_PASSWORD)'
   - name: KEYCLOAK_USER
-    value: admin
+    value: '$(KEYCLOAK_USER)'
   - name: KEYCLOAK_PASSWORD
-    value: admin
+    value: '$(KEYCLOAK_PASSWORD)'
+  - name: KEYCLOAK_FRONTEND_URL
+    value: '$(KEYCLOAK_FRONTEND_URL)'
   - name: KEYCLOAK_LOGLEVEL
     value: INFO
+
+extraEnvFrom: |
+  - configMapRef:
+      name: oncokb-keycloak
+  - configMapRef:
+      name: oncokb-db-public-rds-oncokb-transcript
